@@ -11,7 +11,7 @@ public class Mesa {
     }
 
     public boolean adicionarCliente(Cliente cliente) {
-        if (!isCheia() && clientesAlocados.size() + cliente.getNumeroPessoas() <= capacidade) {
+        if (!isCheia() && clientesAlocados.size() + cliente.getqntdPessoa() <= capacidade) {
             clientesAlocados.add(cliente);
             return true;
         }

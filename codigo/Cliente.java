@@ -25,6 +25,6 @@ public class Cliente {
     }
 
     public int getqntdPessoa() {
-        return numeroPessoas;
-    }
+        return qntdPessoa;
+    }    
 }

@@ -19,7 +19,7 @@ public class Restaurante {
     }
 
     private void alocarMesa(Cliente cliente) {
-        Mesa mesa = encontrarMesaDisponivel(cliente.getNumeroPessoas());
+        Mesa mesa = encontrarMesaDisponivel(cliente.getqntdPessoa());
         if (mesa != null) {
             mesa.adicionarCliente(cliente);
         } else {
