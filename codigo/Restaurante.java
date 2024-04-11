@@ -19,7 +19,7 @@ public class Restaurante {
     }
 
     private void alocarMesa(Cliente cliente) {
-        Mesa mesa = encontrarMesaDisponivel(cliente.getNumeroPessoas());
+        Mesa mesa = olharMesaVaga(cliente.getqntdPessoa());
         if (mesa != null) {
             mesa.adicionarCliente(cliente);
         } else {
@@ -27,7 +27,7 @@ public class Restaurante {
         }
     }
 
-    private Mesa encontrarMesaDisponivel(int numPessoas) {
+    private Mesa olharMesaVaga(int numPessoas) {
         for (Mesa mesa : mesasDisponiveis) {
             if (!mesa.isCheia() && mesa.getCapacidade() >= numPessoas) {
                 return mesa;
