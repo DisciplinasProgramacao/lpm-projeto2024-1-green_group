@@ -2,13 +2,11 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class Cliente {
-    private String nome;
     private int numeroPessoas;
     private Instant horaEntrada;
     private Instant horaSaida;
 
-    public Cliente(String nome, int numeroPessoas) {
-        this.nome = nome;
+    public Cliente(int numeroPessoas) {
         this.numeroPessoas = numeroPessoas;
         this.horaEntrada = Instant.now();
     }
