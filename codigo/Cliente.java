@@ -2,12 +2,12 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class Cliente {
-    private int numeroPessoas;
+    private int qntdPessoa;
     private Instant horaEntrada;
     private Instant horaSaida;
 
-    public Cliente(int numeroPessoas) {
-        this.numeroPessoas = numeroPessoas;
+    public Cliente(int qntdPessoa) {
+        this.qntdPessoa = qntdPessoa;
         this.horaEntrada = Instant.now();
     }
 
@@ -24,7 +24,7 @@ public class Cliente {
         horaSaida = Instant.now();
     }
 
-    public int getNumeroPessoas() {
+    public int getqntdPessoa() {
         return numeroPessoas;
     }
 }
