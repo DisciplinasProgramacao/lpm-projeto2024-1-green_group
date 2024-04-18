@@ -1,30 +1,17 @@
-import java.time.Duration;
-import java.time.Instant;
-
 public class Cliente {
-    private int qntdPessoa;
-    private Instant horaEntrada;
-    private Instant horaSaida;
+    private String id;
+    private String nome;
 
-    public Cliente(int qntdPessoa) {
-        this.qntdPessoa = qntdPessoa;
-        this.horaEntrada = Instant.now();
+    public Cliente(String id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
-    public Duration calcularTempoPermanencia() {
-        if (horaSaida != null) {
-            return Duration.between(horaEntrada, horaSaida);
-        } else {
-            Instant agora = Instant.now();
-            return Duration.between(horaEntrada, agora);
-        }
+    public String getId() {
+        return id;
     }
 
-    public void registrarSaida() {
-        horaSaida = Instant.now();
+    public String getNome() {
+        return nome;
     }
-
-    public int getqntdPessoa() {
-        return qntdPessoa;
-    }    
 }

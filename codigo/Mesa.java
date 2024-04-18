@@ -1,32 +1,27 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Mesa {
-    private int capacidade;
-    private List<Cliente> clientesAlocados;
+    private String id;
+    private int lugares;
+    private boolean ocupado;
 
-    public Mesa(int capacidade) {
-        this.capacidade = capacidade;
-        clientesAlocados = new ArrayList<>();
+    public Mesa(String id, int lugares) {
+        this.id = id;
+        this.lugares = lugares;
+        this.ocupado = false;
     }
 
-    public boolean adicionarCliente(Cliente cliente) {
-        if (!isCheia() && clientesAlocados.size() + cliente.getqntdPessoa() <= capacidade) {
-            clientesAlocados.add(cliente);
-            return true;
-        }
-        return false;
+    public String getId() {
+        return id;
     }
 
-    public void removerCliente(Cliente cliente) {
-        clientesAlocados.remove(cliente);
+    public int getLugares() {
+        return lugares;
     }
 
-    public boolean isCheia() {
-        return clientesAlocados.size() == capacidade;
+    public boolean isOcupado() {
+        return ocupado;
     }
 
-    public int getCapacidade() {
-        return capacidade;
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
     }
 }
