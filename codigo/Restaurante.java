@@ -1,14 +1,16 @@
-import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class Restaurante {
-    private Mesa[] mesas;
+    private List<Mesa> mesas;
     private List<Requisicao> requisicoesAlocadas;
     private List<Requisicao> filaEspera;
 
     public Restaurante(int numMesas) {
-        mesas = new Mesa[numMesas];
+        mesas = new ArrayList<>();
+        for (int i = 0; i < numMesas; i++) {
+            mesas.add(new Mesa("M" + (i + 1), 4));
+        }
         requisicoesAlocadas = new ArrayList<>();
         filaEspera = new ArrayList<>();
     }
@@ -24,12 +26,10 @@ public class Restaurante {
     }
 
     private Mesa olharMesaVaga(int capacidade) {
-        for (Mesa mesa : mesas) {
-            if (!mesa.isOcupado() && mesa.getLugares() >= capacidade) {
-                return mesa;
-            }
-        }
-        return null;
+        return mesas.stream()
+                .filter(m -> !m.isOcupado() && m.getLugares() >= capacidade)
+                .findFirst()
+                .orElse(null);
     }
 
     private void alocarRequisicao(Requisicao requisicao, Mesa mesa) {
@@ -50,43 +50,29 @@ public class Restaurante {
                 .filter(r -> r.getCliente().equals(cliente))
                 .findFirst()
                 .orElse(null);
-
         if (requisicao != null) {
-            requisicao.getMesa().setOcupado(false);
+            liberarMesa(requisicao.getMesa());
             requisicoesAlocadas.remove(requisicao);
-            Requisicao proximaRequisicao = preferenciaNaFilaDeEspera(requisicao.getMesa());
-            if (proximaRequisicao != null) {
-                alocarRequisicao(proximaRequisicao, requisicao.getMesa());
-            }
         }
-    }
-
-    public Mesa deslocarReq(Cliente cliente) {
-        for (Requisicao r : requisicoesAlocadas) {
-            if (r.getCliente().equals(cliente)) {
-                Mesa mesa = r.getMesa();
-                mesa.setOcupado(false);
-                requisicoesAlocadas.remove(r);
-                return mesa;
-            }
-        }
-        return null;
-    }
-
-    public Requisicao preferenciaNaFilaDeEspera(Mesa mesa) {
-        List<Requisicao> candidatos = filaEspera.stream()
-                .filter(r -> r.getQntdPessoa() <= mesa.getLugares())
-                .collect(Collectors.toList());
-
-        if (!candidatos.isEmpty()) {
-            return candidatos.get(0);
-        }
-
-        return null;
     }
 
     public void removerDaFilaDeEspera(String idRequisicao) {
         filaEspera.removeIf(r -> r.getId().equals(idRequisicao));
+    }
+
+    private void liberarMesa(Mesa mesa) {
+        mesa.setOcupado(false);
+        Requisicao proximaRequisicao = preferenciaNaFilaDeEspera(mesa);
+        if (proximaRequisicao != null) {
+            alocarRequisicao(proximaRequisicao, mesa);
+        }
+    }
+
+    private Requisicao preferenciaNaFilaDeEspera(Mesa mesa) {
+        return filaEspera.stream()
+                .filter(r -> r.getQntdPessoa() <= mesa.getLugares())
+                .findFirst()
+                .orElse(null);
     }
 
     private String generateId() {

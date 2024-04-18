@@ -23,12 +23,12 @@ public class Requisicao {
         return horaEntrada;
     }
 
-    public void setHoraSaida(LocalDateTime horaSaida) {
-        this.horaSaida = horaSaida;
-    }
-
     public LocalDateTime getHoraSaida() {
         return horaSaida;
+    }
+
+    public void setHoraSaida(LocalDateTime horaSaida) {
+        this.horaSaida = horaSaida;
     }
 
     public int getQntdPessoa() {
