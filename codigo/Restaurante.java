@@ -62,17 +62,6 @@ public class Restaurante {
 
     private void liberarMesa(Mesa mesa) {
         mesa.setOcupado(false);
-        Requisicao proximaRequisicao = preferenciaNaFilaDeEspera(mesa);
-        if (proximaRequisicao != null) {
-            alocarRequisicao(proximaRequisicao, mesa);
-        }
-    }
-
-    private Requisicao preferenciaNaFilaDeEspera(Mesa mesa) {
-        return filaEspera.stream()
-                .filter(r -> r.getQntdPessoa() <= mesa.getLugares())
-                .findFirst()
-                .orElse(null);
     }
 
     private String generateId() {
