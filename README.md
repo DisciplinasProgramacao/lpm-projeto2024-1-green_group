@@ -8,8 +8,6 @@ Além disso, o sistema proporcionará ao restaurante uma maneira de registrar e 
 
 * Marcelo Matos
 * Lukas Maciel
-* Luiz Eduardo de Oliveira
-* Lucas Torres
 
 ## Professores responsáveis
 
