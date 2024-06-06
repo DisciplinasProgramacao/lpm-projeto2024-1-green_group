@@ -23,6 +23,21 @@ public class Cardapio {
         return itens.get(nome);
     }
 
+    public String getItemPorNumero(int numero) {
+        int index = 1;
+        for (String nomeItem : itens.keySet()) {
+            if (index == numero) {
+                return nomeItem;
+            }
+            index++;
+        }
+        return null;
+    }
+
+    public Map<String, Item> getItens() {
+        return itens;
+    }
+
     @Override
     public String toString() {
         StringBuilder descricao = new StringBuilder("Cardápio:\n");
