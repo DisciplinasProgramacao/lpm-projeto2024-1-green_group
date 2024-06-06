@@ -58,6 +58,12 @@ public class Requisicao {
         return pedido;
     }
 
+    public void adicionarAoPedido(Item item) {
+        if (item != null) {
+            pedido.adicionarItem(item);
+        }
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
