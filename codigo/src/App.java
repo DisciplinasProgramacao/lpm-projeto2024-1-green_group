@@ -22,7 +22,6 @@ public class App {
     }
 
     static int menuPrincipal() {
-        int opcao;
         cabecalho();
         System.out.println("1 - Verificar Mesas");
         System.out.println("2 - Verificar Fila");
@@ -33,8 +32,7 @@ public class App {
         System.out.println("7 - Adicionar Item ao Pedido");
         System.out.println("0 - Sair");
         System.out.print("Digite sua opção: ");
-        opcao = Integer.parseInt(teclado.nextLine());
-        return opcao;
+        return Integer.parseInt(teclado.nextLine());
     }
 
     static void mostrarFila() {
@@ -50,10 +48,9 @@ public class App {
     }
 
     static void solicitarMesa() {
-        int idCli;
         cabecalho();
         System.out.print("Digite o id do cliente: ");
-        idCli = Integer.parseInt(teclado.nextLine());
+        int idCli = Integer.parseInt(teclado.nextLine());
         Cliente localizado = restaurante.localizarCliente(idCli);
         if (localizado == null) {
             System.out.println("Cliente não localizado. Vamos cadastrá-lo:");
@@ -64,23 +61,22 @@ public class App {
     }
 
     static Cliente cadastrarNovoCliente() {
-        String nome;
+        cabecalho();
         System.out.print("Nome do cliente: ");
-        nome = teclado.nextLine();
+        String nome = teclado.nextLine();
         Cliente novo = new Cliente(nome);
         System.out.println("Cliente cadastrado: " + novo);
         pausa();
         return novo;
     }
 
-    static <teclado> void criarRequisicao(Cliente cliente) {
-        int quantasPessoas;
+    static void criarRequisicao(Cliente cliente) {
         cabecalho();
         System.out.print("Para quantas pessoas será a mesa? ");
-        quantasPessoas = Integer.parseInt(teclado.nextLine());
+        int quantasPessoas = Integer.parseInt(teclado.nextLine());
         Requisicao novaRequisicao = new Requisicao(quantasPessoas, cliente);
         restaurante.registrarRequisicao(novaRequisicao);
-        novaRequisicao = processarFila();
+        novaRequisicao = restaurante.processarFila();
         if (novaRequisicao != null) {
             System.out.println(novaRequisicao);
         } else {
@@ -89,15 +85,10 @@ public class App {
         pausa();
     }
 
-    static Requisicao processarFila() {
-        return restaurante.processarFila();
-    }
-
     static void encerrarMesa() {
-        int idMesa;
         cabecalho();
         System.out.print("Qual o número da mesa para encerrar atendimento? ");
-        idMesa = Integer.parseInt(teclado.nextLine());
+        int idMesa = Integer.parseInt(teclado.nextLine());
         Requisicao finalizada = restaurante.encerrarAtendimento(idMesa);
         if (finalizada != null) {
             System.out.println(finalizada);
@@ -127,10 +118,10 @@ public class App {
         pausa();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         teclado = new Scanner(System.in);
-        int opcao;
         restaurante = new Restaurante();
+        int opcao;
         do {
             opcao = menuPrincipal();
             switch (opcao) {
@@ -139,7 +130,7 @@ public class App {
                 case 3 -> solicitarMesa();
                 case 4 -> encerrarMesa();
                 case 5 -> {
-                    Requisicao atendida = processarFila();
+                    Requisicao atendida = restaurante.processarFila();
                     if (atendida != null) {
                         System.out.println(atendida);
                     } else {
