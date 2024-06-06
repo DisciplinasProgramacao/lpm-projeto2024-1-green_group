@@ -1,29 +1,47 @@
-import java.util.ArrayList;
-import java.util.List;
+public class Mesa {
 
-public class Pedido {
+    private static int ultimoID;
+    private int idMesa;
+    private int capacidade;
+    private boolean ocupada;
 
-    private List<Item> itens;
-
-    public Pedido() {
-        itens = new ArrayList<>();
+    static {
+        ultimoID = 0;
     }
 
-    public void adicionarItem(Item item) {
-        if (item != null) {
-            itens.add(item);
+    public Mesa(int capacidade) {
+        this.capacidade = 2;
+        if (capacidade > 2) {
+            this.capacidade = capacidade;
         }
+        idMesa = ++ultimoID;
+        ocupada = false;
     }
 
-    public double calcularTotal() {
-        return itens.stream().mapToDouble(Item::getPreco).sum();
+    public void ocupar() {
+        ocupada = true;
+    }
+
+    public void desocupar() {
+        ocupada = false;
+    }
+
+    public boolean estahLiberada(int quantPessoas) {
+        return (quantPessoas <= capacidade && !ocupada);
+    }
+
+    public int getIdMesa() {
+        return idMesa;
     }
 
     @Override
     public String toString() {
-        StringBuilder descricao = new StringBuilder("Pedido:\n");
-        itens.forEach(item -> descricao.append(item.toString()).append("\n"));
-        descricao.append(String.format("Total: R$ %.2f", calcularTotal()));
-        return descricao.toString();
+        String descricao = String.format("Mesa %02d (%d pessoas), ", idMesa, capacidade);
+        if (ocupada) {
+            descricao += "ocupada.";
+        } else {
+            descricao += "liberada.";
+        }
+        return descricao;
     }
 }
