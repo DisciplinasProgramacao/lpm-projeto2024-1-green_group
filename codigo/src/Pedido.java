@@ -1,24 +1,29 @@
+import java.util.ArrayList;
+import java.util.List;
 
-public class Item {
+public class Pedido {
 
-    private String nome;
-    private double preco;
+    private List<Item> itens;
 
-    public Item(String nome, double preco) {
-        this.nome = nome;
-        this.preco = preco;
+    public Pedido() {
+        itens = new ArrayList<>();
     }
 
-    public String getNome() {
-        return nome;
+    public void adicionarItem(Item item) {
+        if (item != null) {
+            itens.add(item);
+        }
     }
 
-    public double getPreco() {
-        return preco;
+    public double calcularTotal() {
+        return itens.stream().mapToDouble(Item::getPreco).sum();
     }
 
     @Override
     public String toString() {
-        return String.format("%s - R$ %.2f", nome, preco);
+        StringBuilder descricao = new StringBuilder("Pedido:\n");
+        itens.forEach(item -> descricao.append(item.toString()).append("\n"));
+        descricao.append(String.format("Total: R$ %.2f", calcularTotal()));
+        return descricao.toString();
     }
 }
