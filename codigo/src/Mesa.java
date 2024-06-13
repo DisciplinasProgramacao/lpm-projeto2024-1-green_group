@@ -1,3 +1,6 @@
+/**
+ * Classe que representa uma mesa do restaurante.
+ */
 public class Mesa {
 
     private static int ultimoID;
@@ -45,3 +48,4 @@ public class Mesa {
         return descricao;
     }
 }
+
