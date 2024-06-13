@@ -1,9 +1,13 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe que representa o cardápio do restaurante.
+ */
 public class Cardapio {
 
-    private Map<String, Item> itens;
+    private Map<Integer, Item> itens;
+    private static int ultimoCodigo;
 
     public Cardapio() {
         itens = new HashMap<>();
@@ -11,38 +15,27 @@ public class Cardapio {
     }
     
     private void carregarItens() {
-        itens.put("Moqueca de Palmito", new Item("Moqueca de Palmito", 32.00));
-        itens.put("Falafel Assado", new Item("Falafel Assado", 20.00));
-        itens.put("Salada Primavera com Macarrão Konjac", new Item("Salada Primavera com Macarrão Konjac", 25.00));
-        itens.put("Escondidinho de Inhame", new Item("Escondidinho de Inhame", 18.00));
-        itens.put("Strogonoff de Cogumelos", new Item("Strogonoff de Cogumelos", 35.00));
-        itens.put("Caçarola de legumes", new Item("Caçarola de legumes", 22.00));
+        addItem("Moqueca de Palmito", 32.00);
+        addItem("Falafel Assado", 20.00);
+        addItem("Salada Primavera com Macarrão Konjac", 25.00);
+        addItem("Escondidinho de Inhame", 18.00);
+        addItem("Strogonoff de Cogumelos", 35.00);
+        addItem("Caçarola de legumes", 22.00);
     }
 
-    public Item getItem(String nome) {
-        return itens.get(nome);
+    private void addItem(String nome, double preco) {
+        itens.put(++ultimoCodigo, new Item(nome, preco));
     }
 
-    public String getItemPorNumero(int numero) {
-        int index = 1;
-        for (String nomeItem : itens.keySet()) {
-            if (index == numero) {
-                return nomeItem;
-            }
-            index++;
-        }
-        return null;
-    }
-
-    public Map<String, Item> getItens() {
-        return itens;
+    public Item getItem(int codigo) {
+        return itens.get(codigo);
     }
 
     @Override
     public String toString() {
         StringBuilder descricao = new StringBuilder("Cardápio:\n");
-        for (Item item : itens.values()) {
-            descricao.append(item.toString()).append("\n");
+        for (Map.Entry<Integer, Item> entry : itens.entrySet()) {
+            descricao.append(String.format("%d - %s\n", entry.getKey(), entry.getValue()));
         }
         return descricao.toString();
     }
