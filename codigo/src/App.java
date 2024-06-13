@@ -104,27 +104,17 @@ public class App {
         pausa();
     }
 
-    static void exibirCardapioNumerado() {
-        cabecalho();
-        int index = 1;
-        for (String nomeItem : restaurante.getCardapio().getItens().keySet()) {
-            System.out.println(index + " - " + nomeItem);
-            index++;
-        }
-    }
-
     static void adicionarItemAoPedido() {
         cabecalho();
         System.out.print("Digite o número da mesa: ");
         int idMesa = Integer.parseInt(teclado.nextLine());
-        exibirCardapioNumerado();
-        System.out.print("Digite o número do item: ");
-        int numeroItem = Integer.parseInt(teclado.nextLine());
-        String nomeItem = restaurante.getCardapio().getItemPorNumero(numeroItem);
-        if (nomeItem != null && restaurante.adicionarItemAoPedido(idMesa, nomeItem)) {
+        exibirCardapio();;
+        System.out.print("Digite o código do item: ");
+        int codigoItem = Integer.parseInt(teclado.nextLine());
+        if (restaurante.adicionarItemAoPedido(idMesa, codigoItem)) {
             System.out.println("Item adicionado com sucesso!");
         } else {
-            System.out.println("Erro ao adicionar item. Verifique o nome do item e a mesa.");
+            System.out.println("Erro ao adicionar item. Verifique o código do item e a mesa.");
         }
         pausa();
     }
