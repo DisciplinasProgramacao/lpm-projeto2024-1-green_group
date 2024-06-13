@@ -1,6 +1,9 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Classe que representa uma requisição de mesa no restaurante.
+ */
 public class Requisicao {
 
     private Cliente cliente;
@@ -52,10 +55,6 @@ public class Requisicao {
 
     public int getQuantPessoas() {
         return quantPessoas;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
     }
 
     public void adicionarAoPedido(Item item) {
