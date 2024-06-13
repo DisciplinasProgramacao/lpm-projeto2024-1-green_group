@@ -1,3 +1,6 @@
+/**
+ * Classe que representa um cliente do restaurante.
+ */
 public class Cliente {
 
     private static int ultimoID;
