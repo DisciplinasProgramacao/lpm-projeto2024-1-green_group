@@ -1,77 +1,82 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Classe que representa o restaurante, gerenciando mesas, clientes e pedidos.
+ */
 public class Restaurante {
 
     private static final int MAX_FILA = 1000;
     private static final int MAX_MESAS = 10;
     private static final int MAX_CLIENTES = 1000;
-    private Mesa[] mesas;
-    private Cliente[] clientes;
-    private Requisicao[] atendidas;
-    private Requisicao[] espera;
+    private List<Mesa> mesas;
+    private Map<Integer, Cliente> clientes;
+    private List<Requisicao> atendidas;
+    private List<Requisicao> espera;
     private int quantClientes;
-    private int quantMesas;
-    private int requisicoesAtendidas;
-    private int requisicoesEmEspera;
     private Cardapio cardapio;
 
     public Restaurante() {
-        mesas = new Mesa[MAX_MESAS];
-        clientes = new Cliente[MAX_CLIENTES];
-        atendidas = new Requisicao[MAX_FILA];
-        espera = new Requisicao[MAX_FILA];
-        quantMesas = quantClientes = requisicoesAtendidas = requisicoesEmEspera = 0;
+        mesas = new ArrayList<>(MAX_MESAS);
+        clientes = new HashMap<>(MAX_CLIENTES);
+        atendidas = new ArrayList<>(MAX_FILA);
+        espera = new ArrayList<>(MAX_FILA);
+        quantClientes = 0;
         cardapio = new Cardapio();
         criarMesas();
     }
 
     private void criarMesas() {
         for (int i = 0; i < 4; i++) {
-            mesas[quantMesas++] = new Mesa(4);
+            mesas.add(new Mesa(4));
         }
         for (int i = 0; i < 4; i++) {
-            mesas[quantMesas++] = new Mesa(6);
+            mesas.add(new Mesa(6));
         }
         for (int i = 0; i < 2; i++) {
-            mesas[quantMesas++] = new Mesa(8);
+            mesas.add(new Mesa(8));
         }
     }
 
     public void addCliente(Cliente novo) {
         if (novo != null && quantClientes < MAX_CLIENTES) {
-            clientes[quantClientes++] = novo;
+            clientes.put(novo.hashCode(), novo);
+            quantClientes++;
         }
     }
 
+    /**
+     * Localiza um cliente pelo seu identificador.
+     *
+     * @param idCli O identificador do cliente.
+     * @return O cliente correspondente ao identificador, ou null se não encontrado.
+     */
     public Cliente localizarCliente(int idCli) {
-        return Arrays.stream(clientes)
-            .filter(cliente -> cliente != null && cliente.hashCode() == idCli)
-            .findFirst()
-            .orElse(null);
+        return clientes.get(idCli);
     }
 
-    private Mesa localizarMesaDisponivel(int quantPessoas) {
-        return Arrays.stream(mesas)
-            .filter(mesa -> mesa != null && mesa.estahLiberada(quantPessoas))
-            .findFirst()
-            .orElse(null);
+    private Optional<Mesa> localizarMesaDisponivel(int quantPessoas) {
+        return mesas.stream()
+            .filter(mesa -> mesa.estahLiberada(quantPessoas))
+            .findFirst();
     }
 
     public Requisicao encerrarAtendimento(int idMesa) {
-        Requisicao encerrada = localizarRequisicao(idMesa);
-        if (encerrada != null) {
-            encerrada.encerrar();
-        }
-        return encerrada;
+        Optional<Requisicao> encerrada = localizarRequisicao(idMesa);
+        encerrada.ifPresent(Requisicao::encerrar);
+        return encerrada.orElse(null);
     }
 
     public Requisicao processarFila() {
-        for (int i = 0; i < requisicoesEmEspera; i++) {
-            Requisicao requisicao = espera[i];
-            Mesa mesaLivre = localizarMesaDisponivel(requisicao.getQuantPessoas());
-            if (mesaLivre != null) {
-                atenderRequisicao(requisicao, mesaLivre);
+        for (int i = 0; i < espera.size(); i++) {
+            Requisicao requisicao = espera.get(i);
+            Optional<Mesa> mesaLivre = localizarMesaDisponivel(requisicao.getQuantPessoas());
+            if (mesaLivre.isPresent()) {
+                atenderRequisicao(requisicao, mesaLivre.get());
                 retirarDaFila(i);
                 return requisicao;
             }
@@ -80,29 +85,28 @@ public class Restaurante {
     }
 
     private void retirarDaFila(int pos) {
-        System.arraycopy(espera, pos + 1, espera, pos, requisicoesEmEspera - pos - 1);
-        espera[--requisicoesEmEspera] = null;
+        espera.remove(pos);
     }
 
     public void registrarRequisicao(Requisicao novaRequisicao) {
-        if (novaRequisicao != null && requisicoesEmEspera < MAX_FILA) {
-            espera[requisicoesEmEspera++] = novaRequisicao;
+        if (novaRequisicao != null && espera.size() < MAX_FILA) {
+            espera.add(novaRequisicao);
         }
     }
 
     private void atenderRequisicao(Requisicao requisicao, Mesa mesa) {
         requisicao.alocarMesa(mesa);
-        atendidas[requisicoesAtendidas++] = requisicao;
+        atendidas.add(requisicao);
     }
 
     public String statusMesas() {
-        String livres = Arrays.stream(mesas)
-            .filter(mesa -> mesa != null && mesa.estahLiberada(1))
+        String livres = mesas.stream()
+            .filter(mesa -> mesa.estahLiberada(1))
             .map(Mesa::toString)
             .collect(Collectors.joining("\n", "Mesas livres: \n", "\n"));
 
-        String ocupadas = Arrays.stream(mesas)
-            .filter(mesa -> mesa != null && !mesa.estahLiberada(1))
+        String ocupadas = mesas.stream()
+            .filter(mesa -> !mesa.estahLiberada(1))
             .map(Mesa::toString)
             .collect(Collectors.joining("\n", "Mesas em atendimento: \n", "\n"));
 
@@ -110,8 +114,8 @@ public class Restaurante {
     }
 
     public String filaDeEspera() {
-        if (requisicoesEmEspera > 0) {
-            return Arrays.stream(espera, 0, requisicoesEmEspera)
+        if (!espera.isEmpty()) {
+            return espera.stream()
                 .map(Requisicao::toString)
                 .collect(Collectors.joining("\n", "Fila de espera: \n", "\n"));
         } else {
@@ -123,20 +127,19 @@ public class Restaurante {
         return cardapio.toString();
     }
 
-    public boolean adicionarItemAoPedido(int idMesa, String nomeItem) {
-        Requisicao requisicao = localizarRequisicao(idMesa);
-        Item item = cardapio.getItem(nomeItem);
-        if (requisicao != null && item != null) {
-            requisicao.adicionarAoPedido(item);
+    public boolean adicionarItemAoPedido(int idMesa, int codigoItem) {
+        Optional<Requisicao> requisicao = localizarRequisicao(idMesa);
+        Item item = cardapio.getItem(codigoItem);
+        if (requisicao.isPresent() && item != null) {
+            requisicao.get().adicionarAoPedido(item);
             return true;
         }
         return false;
     }
 
-    private Requisicao localizarRequisicao(int idMesa) {
-        return Arrays.stream(atendidas)
-            .filter(requisicao -> requisicao != null && !requisicao.estahEncerrada() && requisicao.ehDaMesa(idMesa))
-            .findFirst()
-            .orElse(null);
+    private Optional<Requisicao> localizarRequisicao(int idMesa) {
+        return atendidas.stream()
+            .filter(requisicao -> !requisicao.estahEncerrada() && requisicao.ehDaMesa(idMesa))
+            .findFirst();
     }
 }
