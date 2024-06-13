@@ -1,9 +1,15 @@
+/**
+ * Classe que representa um item do cardápio.
+ */
 public class Item {
 
     private String nome;
     private double preco;
 
     public Item(String nome, double preco) {
+        if (preco <= 0) {
+            throw new IllegalArgumentException("Preço deve ser maior que zero.");
+        }
         this.nome = nome;
         this.preco = preco;
     }
