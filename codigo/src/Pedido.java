@@ -1,12 +1,15 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Classe que representa um pedido no restaurante.
+ */
 public class Pedido {
 
     private List<Item> itens;
 
     public Pedido() {
-        itens = new ArrayList<>();
+        itens = new LinkedList<>();
     }
 
     public void adicionarItem(Item item) {
