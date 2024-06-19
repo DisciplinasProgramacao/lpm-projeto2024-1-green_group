@@ -1,0 +1,32 @@
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Classe que representa um pedido fechado no restaurante, com itens e quantidades restritas.
+ */
+public class PedidoFechado {
+
+    private Map<Item, Integer> itens;
+
+    public PedidoFechado() {
+        itens = new HashMap<>();
+    }
+
+    public void adicionarItem(Item item, int quantidade) {
+        if (item != null && quantidade > 0) {
+            itens.put(item, itens.getOrDefault(item, 0) + quantidade);
+        }
+    }
+
+    public double calcularTotal() {
+        return itens.entrySet().stream().mapToDouble(entry -> entry.getKey().getPreco() * entry.getValue()).sum();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder descricao = new StringBuilder("Pedido Fechado:\n");
+        itens.forEach((item, quantidade) -> descricao.append(String.format("%s x%d - R$ %.2f\n", item.toString(), quantidade, item.getPreco() * quantidade)));
+        descricao.append(String.format("Total: R$ %.2f", calcularTotal()));
+        return descricao.toString();
+    }
+}
