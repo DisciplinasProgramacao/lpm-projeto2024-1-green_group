@@ -48,4 +48,3 @@ public class Mesa {
         return descricao;
     }
 }
-
