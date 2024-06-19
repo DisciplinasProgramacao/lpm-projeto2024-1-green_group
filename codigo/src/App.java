@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * Classe principal que gerencia a interação com o usuário e o restaurante.
+ */
 public class App {
 
     static Scanner teclado;
@@ -30,6 +33,7 @@ public class App {
         System.out.println("5 - Processar Fila");
         System.out.println("6 - Exibir Cardápio");
         System.out.println("7 - Adicionar Item ao Pedido");
+        System.out.println("8 - Adicionar Item ao Pedido Fechado");
         System.out.println("0 - Sair");
         System.out.print("Digite sua opção: ");
         return Integer.parseInt(teclado.nextLine());
@@ -89,11 +93,11 @@ public class App {
         cabecalho();
         System.out.print("Qual o número da mesa para encerrar atendimento? ");
         int idMesa = Integer.parseInt(teclado.nextLine());
-        Requisicao finalizada = restaurante.encerrarAtendimento(idMesa);
-        if (finalizada != null) {
+        try {
+            Requisicao finalizada = restaurante.encerrarAtendimento(idMesa);
             System.out.println(finalizada);
-        } else {
-            System.out.println("Mesa " + idMesa + " não está em atendimento");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
         pausa();
     }
@@ -108,13 +112,38 @@ public class App {
         cabecalho();
         System.out.print("Digite o número da mesa: ");
         int idMesa = Integer.parseInt(teclado.nextLine());
-        exibirCardapio();;
+        exibirCardapio();
         System.out.print("Digite o código do item: ");
         int codigoItem = Integer.parseInt(teclado.nextLine());
-        if (restaurante.adicionarItemAoPedido(idMesa, codigoItem)) {
-            System.out.println("Item adicionado com sucesso!");
-        } else {
-            System.out.println("Erro ao adicionar item. Verifique o código do item e a mesa.");
+        try {
+            if (restaurante.adicionarItemAoPedido(idMesa, codigoItem)) {
+                System.out.println("Item adicionado com sucesso!");
+            } else {
+                System.out.println("Erro ao adicionar item. Verifique o código do item e a mesa.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        pausa();
+    }
+
+    static void adicionarItemAoPedidoFechado() {
+        cabecalho();
+        System.out.print("Digite o número da mesa: ");
+        int idMesa = Integer.parseInt(teclado.nextLine());
+        System.out.println(restaurante.exibirCardapioFechado());
+        System.out.print("Digite o código do item: ");
+        int codigoItem = Integer.parseInt(teclado.nextLine());
+        System.out.print("Digite a quantidade: ");
+        int quantidade = Integer.parseInt(teclado.nextLine());
+        try {
+            if (restaurante.adicionarItemAoPedidoFechado(idMesa, codigoItem, quantidade)) {
+                System.out.println("Item adicionado com sucesso!");
+            } else {
+                System.out.println("Erro ao adicionar item. Verifique o código do item, a mesa e a quantidade.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
         pausa();
     }
@@ -131,16 +160,21 @@ public class App {
                 case 3 -> solicitarMesa();
                 case 4 -> encerrarMesa();
                 case 5 -> {
-                    Requisicao atendida = restaurante.processarFila();
-                    if (atendida != null) {
-                        System.out.println(atendida);
-                    } else {
-                        System.out.println("Fila vazia ou mesas não disponíveis. Favor verificar a situação.");
+                    try {
+                        Requisicao atendida = restaurante.processarFila();
+                        if (atendida != null) {
+                            System.out.println(atendida);
+                        } else {
+                            System.out.println("Fila vazia ou mesas não disponíveis. Favor verificar a situação.");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
                     }
                     pausa();
                 }
                 case 6 -> exibirCardapio();
                 case 7 -> adicionarItemAoPedido();
+                case 8 -> adicionarItemAoPedidoFechado();
             }
         } while (opcao != 0);
         teclado.close();
