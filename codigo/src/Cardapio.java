@@ -6,7 +6,7 @@ import java.util.Map;
  */
 public class Cardapio {
 
-    protected Map<Integer, Item> itens;
+    private Map<Integer, Item> itens;
     private static int ultimoCodigo;
 
     public Cardapio() {
@@ -14,7 +14,7 @@ public class Cardapio {
         carregarItens();
     }
     
-    protected void carregarItens() {
+    private void carregarItens() {
         addItem("Moqueca de Palmito", 32.00);
         addItem("Falafel Assado", 20.00);
         addItem("Salada Primavera com Macarrão Konjac", 25.00);
@@ -23,7 +23,7 @@ public class Cardapio {
         addItem("Caçarola de legumes", 22.00);
     }
 
-    protected void addItem(String nome, double preco) {
+    private void addItem(String nome, double preco) {
         itens.put(++ultimoCodigo, new Item(nome, preco));
     }
 
@@ -38,20 +38,5 @@ public class Cardapio {
             descricao.append(String.format("%d - %s\n", entry.getKey(), entry.getValue()));
         }
         return descricao.toString();
-    }
-}
-
-/**
- * Classe que representa o cardápio fechado do restaurante, com itens restritos.
- */
-public class CardapioFechado extends Cardapio {
-
-    @Override
-    protected void carregarItens() {
-        addItem("Falafel Assado", 32.00);
-        addItem("Caçarola de legumes", 32.00);
-        addItem("Copo de suco", 5.00);
-        addItem("Refrigerante orgânico", 5.00);
-        addItem("Cerveja vegana", 5.00);
     }
 }
