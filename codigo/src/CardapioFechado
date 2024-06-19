@@ -1,0 +1,39 @@
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Classe que representa o cardápio fechado do restaurante, com itens restritos.
+ */
+public class CardapioFechado {
+
+    private Map<Integer, Item> itens;
+    private static int ultimoCodigo;
+
+    public CardapioFechado() {
+        itens = new HashMap<>();
+        carregarItens();
+    }
+    
+    private void carregarItens() {
+        addItem("Feijoada Vegana", 45.00);
+        addItem("Lasanha de Berinjela", 30.00);
+        addItem("Torta de Palmito", 28.00);
+    }
+
+    private void addItem(String nome, double preco) {
+        itens.put(++ultimoCodigo, new Item(nome, preco));
+    }
+
+    public Item getItem(int codigo) {
+        return itens.get(codigo);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder descricao = new StringBuilder("Cardápio Fechado:\n");
+        for (Map.Entry<Integer, Item> entry : itens.entrySet()) {
+            descricao.append(String.format("%d - %s\n", entry.getKey(), entry.getValue()));
+        }
+        return descricao.toString();
+    }
+}
