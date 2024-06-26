@@ -61,6 +61,12 @@ public class Restaurante {
             .findFirst();
     }
 
+    /**
+     * Encerra o atendimento de uma mesa.
+     *
+     * @param idMesa O identificador da mesa a ser encerrada.
+     * @return A requisição encerrada, ou null se não houver atendimento ativo para a mesa.
+     */
     public Requisicao encerrarAtendimento(int idMesa) {
         Optional<Requisicao> encerrada = localizarRequisicao(idMesa);
         if (encerrada.isPresent()) {

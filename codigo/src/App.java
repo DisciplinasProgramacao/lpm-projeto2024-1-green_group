@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Classe principal que gerencia a interação com o usuário e o restaurante.
+ * Classe principal para o aplicativo de gerenciamento do restaurante.
  */
 public class App {
 
@@ -112,7 +112,6 @@ public class App {
         cabecalho();
         System.out.print("Digite o número da mesa: ");
         int idMesa = Integer.parseInt(teclado.nextLine());
-        exibirCardapio();
         System.out.print("Digite o código do item: ");
         int codigoItem = Integer.parseInt(teclado.nextLine());
         try {
