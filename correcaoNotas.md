@@ -43,3 +43,29 @@ Requisicao - sem métodos para inserir produtos no pedido, fechar conta. getPedi
 Restaurante - dando get pedido na requisição. sem fechar pedido no encerramento. código localizar req. - Lukas
 
 App - `static<teclado>`? - Lukas - 8
+
+## Sprint 3 - Até 05/junho
+  - Nota de grupo (6 pontos)
+    - Modelo atualizado - menu fechado
+  
+  - Nota individual (14 pontos)	
+    - Implementações menu fechado e app
+    - Correções anteriores
+
+### Revisão 12/06
+
+Diagrama desatualizado. Exportação com fundo preto. Documentação inexistente - 0
+
+Cardápio: usar coleções adequadamente (for em key set....). getItens
+
+Item: validar preço 
+
+Pedido ok
+
+Requisição. não pode ter getPedido
+
+Restaurante ainda sem coleções e melhorar o uso das streams.
+
+Main: lógicas de exibir cardápio e adicionar item no main com quebra de encapsulamento
+
+Só há commits do Marcelo nesta sprint. (10)
