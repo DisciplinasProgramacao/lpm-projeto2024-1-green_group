@@ -12,6 +12,34 @@
 Diagrama - sem métodos para cliente ou mesa. Sem relação mesa-requisição. Sem métodos para requisição - 4
 
 Demais atividade: só há commits do Marcelo. - 8
+
 Cliente - sem documentação nem testes. Sem nome ou id.
+
 Mesa - sem documentação nem testes. Mesa não tem relação com cliente. Capacidade sem validação.  Sem verificação de ocupação. 
+
 Restaurante - realizando lógica de mesa. sem requisição.
+
+## Sprint 2 - Até 22/maio
+  - Nota de grupo (6 pontos)
+    - Modelo UML atualizado - cardápio e pedidos
+	- Estrutura Spring
+  
+  - Nota individual (14 pontos)	
+    - Implementações cardápio e pedidos
+    - Controllers
+    - Correções anteriores
+
+### Commit ffb9f0c (22 maio)
+Diagrama com fundo preto - legibilidade extremamente prejudicada - padrão UML - 4,8
+
+Cardápio - ok, sem documentação. id é o nome do item. - Marcelo 
+
+Pedido - errado (classe Item no lugar) - Marcelo 
+
+Item - sem validação de preço, sem documentação - Marcelo - 10
+
+Requisicao - sem métodos para inserir produtos no pedido, fechar conta. getPedido desnecessario - Lukas
+
+Restaurante - dando get pedido na requisição. sem fechar pedido no encerramento. código localizar req. - Lukas
+
+App - `static<teclado>`? - Lukas - 8
