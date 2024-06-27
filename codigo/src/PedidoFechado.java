@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Classe que representa um pedido fechado no restaurante, com itens e quantidades restritas.
  */

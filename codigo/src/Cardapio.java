@@ -31,6 +31,10 @@ public class Cardapio {
         return itens.get(codigo);
     }
 
+    public Map<Integer, Item> getItens() {
+        return itens;
+    }
+
     @Override
     public String toString() {
         StringBuilder descricao = new StringBuilder("Cardápio:\n");
@@ -39,4 +43,3 @@ public class Cardapio {
         }
         return descricao.toString();
     }
-}

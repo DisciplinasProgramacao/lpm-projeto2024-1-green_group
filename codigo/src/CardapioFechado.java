@@ -1,5 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Classe que representa o cardápio fechado do restaurante, com itens restritos.

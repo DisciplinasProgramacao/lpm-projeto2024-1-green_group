@@ -67,7 +67,7 @@ public class Restaurante {
      * @param idMesa O identificador da mesa a ser encerrada.
      * @return A requisição encerrada, ou null se não houver atendimento ativo para a mesa.
      */
-    public Requisicao encerrarAtendimento(int idMesa) {
+    public Mesa encerrarAtendimento(int idMesa) {
         Optional<Requisicao> encerrada = localizarRequisicao(idMesa);
         if (encerrada.isPresent()) {
             return encerrada.get().encerrar();
@@ -128,12 +128,8 @@ public class Restaurante {
         }
     }
 
-    public String exibirCardapio() {
-        return cardapio.toString();
-    }
-
-    public String exibirCardapioFechado() {
-        return cardapioFechado.toString();
+    public String exibirCardapio(boolean fechado) {
+        return fechado ? cardapioFechado.toString() : cardapio.toString();
     }
 
     public boolean adicionarItemAoPedido(int idMesa, int codigoItem) {
@@ -160,7 +156,7 @@ public class Restaurante {
         return false;
     }
 
-    private Optional<Requisicao> localizarRequisicao(int idMesa) {
+    public Optional<Requisicao> localizarRequisicao(int idMesa) {
         return atendidas.stream()
             .filter(requisicao -> !requisicao.estahEncerrada() && requisicao.ehDaMesa(idMesa))
             .findFirst();
