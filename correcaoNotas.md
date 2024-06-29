@@ -69,3 +69,13 @@ Restaurante ainda sem coleções e melhorar o uso das streams.
 Main: lógicas de exibir cardápio e adicionar item no main com quebra de encapsulamento
 
 Só há commits do Marcelo nesta sprint. (10)
+
+Sprint 4 - Apresentação em 24/06
+**Somente Marcelo.**
+- Modelo atualizado: classes estão lá, mas o modelo está bem incorreto nas relações entre elas e notações uml
+- Apresentação: ok 
+- Execução main: cumpre requisitos, mas com problemas de modularidade (métodos para pedido / fechado e cardápio / fechado )
+- Uso de exceções: ok
+- Modularidade
+  - Pedido fechado poderia conferir no cardápio o item (melhora o OCP). 
+  - Códigos como ` requisicao.get().setPedido(pedidoFechado);` devem ser evitados... veja a exposição de encapsulamento.
