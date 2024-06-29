@@ -6,15 +6,15 @@ import java.util.Map;
  */
 public class Cardapio {
 
-    private Map<Integer, Item> itens;
+    protected Map<Integer, Item> itens;
     private static int ultimoCodigo;
 
     public Cardapio() {
         itens = new HashMap<>();
         carregarItens();
     }
-    
-    private void carregarItens() {
+
+    protected void carregarItens() {
         addItem("Moqueca de Palmito", 32.00);
         addItem("Falafel Assado", 20.00);
         addItem("Salada Primavera com Macarrão Konjac", 25.00);
@@ -23,12 +23,16 @@ public class Cardapio {
         addItem("Caçarola de legumes", 22.00);
     }
 
-    private void addItem(String nome, double preco) {
+    protected void addItem(String nome, double preco) {
         itens.put(++ultimoCodigo, new Item(nome, preco));
     }
 
     public Item getItem(int codigo) {
         return itens.get(codigo);
+    }
+
+    public Map<Integer, Item> getItens() {
+        return itens;
     }
 
     @Override
@@ -39,4 +43,3 @@ public class Cardapio {
         }
         return descricao.toString();
     }
-}

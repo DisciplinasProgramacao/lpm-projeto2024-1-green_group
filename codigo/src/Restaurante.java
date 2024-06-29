@@ -19,6 +19,7 @@ public class Restaurante {
     private List<Requisicao> espera;
     private int quantClientes;
     private Cardapio cardapio;
+    private CardapioFechado cardapioFechado;
 
     public Restaurante() {
         mesas = new ArrayList<>(MAX_MESAS);
@@ -27,6 +28,7 @@ public class Restaurante {
         espera = new ArrayList<>(MAX_FILA);
         quantClientes = 0;
         cardapio = new Cardapio();
+        cardapioFechado = new CardapioFechado();
         criarMesas();
     }
 
@@ -49,12 +51,6 @@ public class Restaurante {
         }
     }
 
-    /**
-     * Localiza um cliente pelo seu identificador.
-     *
-     * @param idCli O identificador do cliente.
-     * @return O cliente correspondente ao identificador, ou null se não encontrado.
-     */
     public Cliente localizarCliente(int idCli) {
         return clientes.get(idCli);
     }
@@ -71,10 +67,13 @@ public class Restaurante {
      * @param idMesa O identificador da mesa a ser encerrada.
      * @return A requisição encerrada, ou null se não houver atendimento ativo para a mesa.
      */
-    public Requisicao encerrarAtendimento(int idMesa) {
+    public Mesa encerrarAtendimento(int idMesa) {
         Optional<Requisicao> encerrada = localizarRequisicao(idMesa);
-        encerrada.ifPresent(Requisicao::encerrar);
-        return encerrada.orElse(null);
+        if (encerrada.isPresent()) {
+            return encerrada.get().encerrar();
+        } else {
+            throw new IllegalArgumentException("Mesa não encontrada ou já encerrada.");
+        }
     }
 
     public Requisicao processarFila() {
@@ -129,8 +128,8 @@ public class Restaurante {
         }
     }
 
-    public String exibirCardapio() {
-        return cardapio.toString();
+    public String exibirCardapio(boolean fechado) {
+        return fechado ? cardapioFechado.toString() : cardapio.toString();
     }
 
     public boolean adicionarItemAoPedido(int idMesa, int codigoItem) {
@@ -143,7 +142,21 @@ public class Restaurante {
         return false;
     }
 
-    private Optional<Requisicao> localizarRequisicao(int idMesa) {
+    public boolean adicionarItemAoPedidoFechado(int idMesa, int codigoItem, int quantidade) {
+        Optional<Requisicao> requisicao = localizarRequisicao(idMesa);
+        Item item = cardapioFechado.getItem(codigoItem);
+        if (requisicao.isPresent() && item != null) {
+            PedidoFechado pedidoFechado = new PedidoFechado();
+            for (int i = 0; i < quantidade; i++) {
+                pedidoFechado.adicionarItem(item);
+            }
+            requisicao.get().setPedido(pedidoFechado);
+            return true;
+        }
+        return false;
+    }
+
+    public Optional<Requisicao> localizarRequisicao(int idMesa) {
         return atendidas.stream()
             .filter(requisicao -> !requisicao.estahEncerrada() && requisicao.ehDaMesa(idMesa))
             .findFirst();

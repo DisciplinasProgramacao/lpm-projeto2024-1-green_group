@@ -6,7 +6,7 @@ import java.util.List;
  */
 public class Pedido {
 
-    private List<Item> itens;
+    protected List<Item> itens;
 
     public Pedido() {
         itens = new LinkedList<>();
