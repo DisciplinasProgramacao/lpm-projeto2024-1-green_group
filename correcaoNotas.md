@@ -54,7 +54,7 @@ App - `static<teclado>`? - Lukas - 8
 
 ### Revisão 12/06
 
-Diagrama desatualizado. Exportação com fundo preto. Documentação inexistente - 0
+Diagrama desatualizado. Exportação com fundo preto. Documentação inexistente - **2 REVISADO DIAGRAMA**
 
 Cardápio: usar coleções adequadamente (for em key set....). getItens
 
